@@ -1,28 +1,25 @@
-﻿using LanguageLogic.AST;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LanguageLogic
+namespace LanguageLogic.AST
 {
-    public class BinOp : IASTNode
+    public class Assign : IASTNode
     {
-
         public IASTNode Left { get; }
         public IASTNode Right { get; }
 
-        public Token Operation { get; }
-        public BinOp(IASTNode left, Token operation, IASTNode right)
+        public Token Token { get; }
+
+        public Assign(IASTNode left, IASTNode right, Token token)
         {
             Left = left;
-            Operation = operation;
             Right = right;
+            Token = token;
         }
-
         public override object Visit(INodeVisitor visitor)
         {
-            return visitor.Visit_BinOp(this);
+            return visitor.Visit_Assign(this);
         }
-
     }
 }

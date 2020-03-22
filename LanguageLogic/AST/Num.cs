@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LanguageLogic.AST;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,9 +16,9 @@ namespace LanguageLogic
             Token = token;
         }
 
-        public override double Visit()
+        public override object Visit(INodeVisitor visitor)
         {
-            return Value;
+            return visitor.Visit_Num(this);
         }
 
     }

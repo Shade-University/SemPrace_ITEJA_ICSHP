@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LanguageLogic.AST;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,18 +16,9 @@ namespace LanguageLogic
             Node = node;
             Token = token;
         }
-        public override double Visit()
+        public override object Visit(INodeVisitor visitor)
         {
-            if(Token.TokenType == TokenType.PLUS)
-            {
-                return +Node.Visit();
-            }
-            else if(Token.TokenType == TokenType.MINUS)
-            {
-                return -Node.Visit();
-            }
-
-            throw new Exception("Unknown UnaryOP TokenType");
+            return visitor.Visit_UnaryOp(this);
         }
     }
 }

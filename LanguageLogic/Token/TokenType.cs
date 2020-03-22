@@ -6,13 +6,40 @@ namespace LanguageLogic
 {
     public enum TokenType
     {
+        END,
+        VAR,
+        IDENT,
+        FUNC,
+        IF,
+        THEN,
+        WHILE,
+        DO,
+        FOR,
+        TO,
+
+        LBRACKET,
+        RBRACKET,
+        LPARENT,
+        RPARENT,
+        DOT,
+        COMA,
+        SEMICOLON,
+        ASSIGN,
+        LESS,
+        MORE,
+        LQUOTE,
+        RQUOTE,
+
+        LESS_OR_EQUAL,
+        MORE_OR_EQUAL,
+        EQUALS,
+
         NUMBER,
         PLUS,
         MINUS,
         MUL,
         DIV,
-        LPARENT,
-        RPARENT,
+
         EOF
     }
 }
