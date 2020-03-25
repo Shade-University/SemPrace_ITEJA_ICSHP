@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LanguageLogic
+namespace LanguageLogic.AST
 {
-    public abstract class IASTNode
+    public interface IASTNode //Interface representing Node in AST
     {
-        public abstract object Visit(INodeVisitor visitor);
+        public object Visit(INodeVisitor visitor);
     }
 }

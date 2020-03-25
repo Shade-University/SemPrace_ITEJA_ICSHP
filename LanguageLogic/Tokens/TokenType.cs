@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LanguageLogic
+namespace LanguageLogic.Tokens
 {
     public enum TokenType
     {

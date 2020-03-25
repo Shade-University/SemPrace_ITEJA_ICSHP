@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LanguageLogic.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,15 +7,15 @@ namespace LanguageLogic
 {
     public class Lexer
     {
-        private Dictionary<string, Token> reservedKeyWords;
+        public string Text { get; }
 
+        private Dictionary<string, Token> reservedKeyWords;
         private char currentChar;
         private int pos;
-        private string text;
 
         public Lexer(string text)
         {
-            this.text = text;
+            Text = text;
             pos = 0;
             currentChar = text[pos];
 
@@ -173,19 +174,19 @@ namespace LanguageLogic
         private void Advance()
         {
             pos += 1;
-            if (pos > text.Length - 1)
+            if (pos > Text.Length - 1)
                 currentChar = char.MinValue;
             else
-                currentChar = text[pos];
+                currentChar = Text[pos];
         }
 
         private char Peek()
         {
             int peek_position = pos + 1;
-            if (peek_position > text.Length - 1)
+            if (peek_position > Text.Length - 1)
                 return char.MinValue;
             else
-                return text[peek_position];
+                return Text[peek_position];
         }
 
         private Token EatId()

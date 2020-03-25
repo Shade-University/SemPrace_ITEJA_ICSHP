@@ -14,7 +14,7 @@ namespace LanguageLogic.AST
             Node = node;
         }
 
-        public override object Visit(INodeVisitor visitor)
+        public object Visit(INodeVisitor visitor)
         {
             return visitor.Visit_VarDeclaration(this);
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LanguageLogic.AST.Statements;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,23 +7,16 @@ namespace LanguageLogic.AST
 {
     public class Block : IASTNode
     {
-        public List<IASTNode> Declarations { get; set; }
-        public List<IASTNode> Childrens { get; set; }
+        public List<Var> Declarations { get; set; } = new List<Var>(); //Variables
+        public List<Statement> Childrens { get; set; } = new List<Statement>(); // Statements
 
-
-        public Block()
-        {
-            Childrens = new List<IASTNode>();
-            Declarations = new List<IASTNode>();
-        }
-
-        public Block(List<IASTNode> declarations, List<IASTNode> childrens)
+        public Block(List<Var> declarations, List<Statement> childrens)
         {
             Declarations = declarations;
             Childrens = childrens;
         }
 
-        public override object Visit(INodeVisitor visitor)
+        public object Visit(INodeVisitor visitor)
         {
             return visitor.Visit_Block(this);
         }

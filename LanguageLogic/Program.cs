@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LanguageLogic.AST;
+using System;
 using System.Linq;
 
 namespace LanguageLogic
@@ -16,7 +17,7 @@ namespace LanguageLogic
             {
 	            y = y + 1;
             }
-            if y < 5 1 then 
+            if y < 51 then 
             {
             }
 
@@ -28,7 +29,7 @@ namespace LanguageLogic
             /*Interpreter interpreter = new Interpreter(parser);
             interpreter.Interpret();*/
 
-            IASTNode node = parser.Parse();
+            Block node = parser.Parse();
 
             Console.ReadKey();
         }

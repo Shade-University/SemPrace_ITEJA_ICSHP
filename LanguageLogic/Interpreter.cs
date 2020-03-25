@@ -1,4 +1,6 @@
 ﻿using LanguageLogic.AST;
+using LanguageLogic.AST.Statements;
+using LanguageLogic.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,7 +24,7 @@ namespace LanguageLogic
             //TODO
         }
 
-        public object Visit_Assign(Assign node)
+        public object Visit_Assign(AssignStatement node)
         {
             variables.Add(
                 ((Var)node.Right).Value,
