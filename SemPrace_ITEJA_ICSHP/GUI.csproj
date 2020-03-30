@@ -7,9 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="close.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Model\" />
-    <Folder Include="ViewModel\" />
-    <Folder Include="View\" />
+    <Folder Include="Resources\img\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="close.jpg" />
   </ItemGroup>
 
 </Project>

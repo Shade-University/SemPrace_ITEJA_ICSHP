@@ -14,5 +14,13 @@ namespace SemPrace_ITEJA_ICSHP
         /// The event that is fired when any child property changes its value
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+
+        protected virtual void RaisePropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GUI.View;
+using GUI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,23 @@ namespace SemPrace_ITEJA_ICSHP
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainViewModel mainViewModel = new MainViewModel();
         public MainWindow()
         {
             InitializeComponent();
+            mainViewModel.TabItems.Add(new TabItemViewModel() { Header = "Shell", Content = new ShellTab(), Closable = false });
+            DataContext = mainViewModel;
+            actionTabs.SelectedIndex = 0;
+        }
+
+        private void CreateNewFile_TabOpen_Click(object sender, RoutedEventArgs e)
+        {
+            mainViewModel.TabItems.Add(new TabItemViewModel() { Header = "Shell", Content = new ShellTab() });
+        }
+
+        private void CloseTab(object sender, MouseButtonEventArgs e)
+        {
+            mainViewModel.TabItems.RemoveAt(actionTabs.SelectedIndex);
         }
     }
 }
