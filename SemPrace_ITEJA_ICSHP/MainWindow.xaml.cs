@@ -33,7 +33,7 @@ namespace SemPrace_ITEJA_ICSHP
 
         private void CreateNewFile_TabOpen_Click(object sender, RoutedEventArgs e)
         {
-            mainViewModel.TabItems.Add(new TabItemViewModel() { Header = "Shell", Content = new ShellTab() });
+            mainViewModel.TabItems.Add(new TabItemViewModel() { Header = "AST Visualizer", Content = new ASTVisualizeTab()});
         }
 
         private void CloseTab(object sender, MouseButtonEventArgs e)

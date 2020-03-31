@@ -27,7 +27,7 @@ namespace LanguageLogic
         public object Visit_Assign(AssignStatement node)
         {
             variables.Add(
-                ((Var)node.Right).Value,
+                node.Left.Value,
                 (int)node.Right.Visit(this)
               );
             return null;
@@ -105,5 +105,29 @@ namespace LanguageLogic
             throw new Exception("Variable doesnt exist");
         }
 
+        public object Visit_Condition(Condition condition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit_FuncCallStatement(FuncCallStatement funcCallStatement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit_WhileStatement(WhileStatement whileStatement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit_IfStatement(IfStatement ifStatement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit_ForStatement(ForStatement node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

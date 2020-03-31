@@ -6,7 +6,7 @@ namespace LanguageLogic.AST
 {
     public class VarDeclaration : IASTNode
     {
-        Var Node { get; set; }
+        public Var Node { get; set; }
         //TODO Type
 
         public VarDeclaration(Var node)

@@ -8,7 +8,7 @@ namespace LanguageLogic.AST.Statements
     {
         public override object Visit(INodeVisitor visitor)
         {
-            throw new NotImplementedException();
+            return visitor.Visit_FuncCallStatement(this);
         }
     }
 }
