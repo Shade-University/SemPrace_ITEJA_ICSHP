@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LanguageLogic.AST
 {
-    public class Var : IASTNode
+    public class Var : IExpression
     {
         public string Value { get; } //Variable name
         public Token Token { get; }

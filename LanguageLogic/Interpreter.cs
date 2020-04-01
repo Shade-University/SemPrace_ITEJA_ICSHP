@@ -27,9 +27,10 @@ namespace LanguageLogic
         public object Visit_Assign(AssignStatement node)
         {
             variables.Add(
-                node.Left.Value,
-                (int)node.Right.Visit(this)
+                node.Identificator,
+                (int)node.Expression.Visit(this)
               );
+
             return null;
         }
 
@@ -62,7 +63,7 @@ namespace LanguageLogic
                 item.Visit(this);
             }
 
-            foreach (var item in node.Childrens)
+            foreach (var item in node.BodyStatements)
             {
                 item.Visit(this);
             }
@@ -84,11 +85,11 @@ namespace LanguageLogic
         {
             if (node.Token.TokenType == TokenType.PLUS)
             {
-                return +(int)node.Node.Visit(this);
+                return +(int)node.Expression.Visit(this);
             }
             else if (node.Token.TokenType == TokenType.MINUS)
             {
-                return -(int)node.Node.Visit(this);
+                return -(int)node.Expression.Visit(this);
             }
 
             throw new Exception("Unknown UnaryOP TokenType");

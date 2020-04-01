@@ -4,17 +4,17 @@ using System.Text;
 
 namespace LanguageLogic.AST.Statements
 {
-    public class WhileStatement : Statement
+    public class WhileStatement : IStatement
     {
-        public Condition Condition { get; set; } //Condition
-        public List<Statement> BodyStatements { get; set; } //Body
+        public Condition Condition { get; } //Condition
+        public List<IStatement> BodyStatements { get; } //Body
 
-        public WhileStatement(Condition condition, List<Statement> statements)
+        public WhileStatement(Condition condition, List<IStatement> statements)
         {
             Condition = condition;
             BodyStatements = statements;
         }
-        public override object Visit(INodeVisitor visitor)
+        public object Visit(INodeVisitor visitor)
         {
             return visitor.Visit_WhileStatement(this);
         }

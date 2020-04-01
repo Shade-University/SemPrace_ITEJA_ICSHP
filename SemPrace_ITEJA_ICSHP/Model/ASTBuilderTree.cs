@@ -27,8 +27,12 @@ namespace GUI.Model
         { 
             TreeViewItem item = new TreeViewItem();
             item.Header = "Assign";
-            item.Items.Add(node.Left.Visit(this));
-            item.Items.Add(node.Right.Visit(this));
+
+            TreeViewItem varItem = new TreeViewItem();
+            varItem.Header = node.Identificator;
+            varItem.Items.Add(node.Expression.Visit(this));
+
+            item.Items.Add(varItem);
 
             return item;
         }
@@ -49,19 +53,21 @@ namespace GUI.Model
             TreeViewItem item = new TreeViewItem();
             item.Header = "Block";
 
+            TreeViewItem declItem = new TreeViewItem();
+            declItem.Header = "Declarations";
             foreach (var decl in node.Declarations)
             {
-                TreeViewItem declItem = new TreeViewItem();
                 declItem.Items.Add(decl.Visit(this));
-                item.Items.Add(declItem);
             }
+            item.Items.Add(declItem);
 
-            foreach (var child in node.Childrens)
+            TreeViewItem childItem = new TreeViewItem();
+            childItem.Header = "Statements";
+            foreach (var child in node.BodyStatements)
             {
-                TreeViewItem childItem = new TreeViewItem();
                 childItem.Items.Add(child.Visit(this));
-                item.Items.Add(childItem);
             }
+            item.Items.Add(childItem);
 
             return item;
         }
@@ -102,7 +108,7 @@ namespace GUI.Model
         {
             TreeViewItem item = new TreeViewItem();
             item.Header = "UnaryOp " + node.Token.Value;
-            item.Items.Add(node.Node.Visit(this));
+            item.Items.Add(node.Expression.Visit(this));
 
             return item;
         }

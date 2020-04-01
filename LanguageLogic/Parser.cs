@@ -44,7 +44,7 @@ namespace LanguageLogic
         private Block Block()
         {
             List<Var> declarations = Declarations();
-            List<Statement> statements = Statements();
+            List<IStatement> statements = Statements();
 
             Block root = new Block(declarations, statements);
 
@@ -73,9 +73,9 @@ namespace LanguageLogic
             return results;
         }
 
-        private List<Statement> Statements()
+        private List<IStatement> Statements()
         {
-            List<Statement> results = new List<Statement>();
+            List<IStatement> results = new List<IStatement>();
 
             while(currentToken.TokenType != TokenType.END)
             {
@@ -85,7 +85,7 @@ namespace LanguageLogic
             return results;
         }
 
-        private Statement Statement()
+        private IStatement Statement()
         {
             switch(currentToken.TokenType)
             {
@@ -99,16 +99,16 @@ namespace LanguageLogic
             throw new Exception("Expected valid statement token");
         }
 
-        private Statement ForStatement()
+        private IStatement ForStatement()
         {
             EatToken(TokenType.FOR);
-            IASTNode left = Expression();
+            IExpression left = Expression();
             EatToken(TokenType.TO);
-            IASTNode right = Expression();
+            IExpression right = Expression();
             EatToken(TokenType.DO);
             EatToken(TokenType.LBRACKET);
 
-            List<Statement> statements = new List<Statement>();
+            List<IStatement> statements = new List<IStatement>();
             while (currentToken.TokenType != TokenType.RBRACKET)
             {
                 statements.Add(Statement());
@@ -118,14 +118,14 @@ namespace LanguageLogic
             return new ForStatement(left, statements, right);
         }
 
-        private Statement WhileStatement()
+        private IStatement WhileStatement()
         {
             EatToken(TokenType.WHILE);
             Condition condition = Condition();
             EatToken(TokenType.DO);
             EatToken(TokenType.LBRACKET);
 
-            List<Statement> statements = new List<Statement>();
+            List<IStatement> statements = new List<IStatement>();
             while (currentToken.TokenType != TokenType.RBRACKET)
             {
                 statements.Add(Statement());
@@ -135,14 +135,14 @@ namespace LanguageLogic
             return new WhileStatement(condition, statements);
         }
 
-        private Statement IfStatement()
+        private IStatement IfStatement()
         {
             EatToken(TokenType.IF);
             Condition condition = Condition();
             EatToken(TokenType.THEN);
             EatToken(TokenType.LBRACKET);
 
-            List<Statement> statements = new List<Statement>();
+            List<IStatement> statements = new List<IStatement>();
             while (currentToken.TokenType != TokenType.RBRACKET)
             {
                 statements.Add(Statement());
@@ -152,20 +152,21 @@ namespace LanguageLogic
             return new IfStatement(condition, statements);
         }
 
-        private Statement FuncCallStatement()
+        private IStatement FuncCallStatement()
         {
             throw new NotImplementedException();
         }
 
-        private Statement AssignStatement()
+        private IStatement AssignStatement()
         {
-            Var left = Variable();
+            string ident = currentToken.Value;
+            EatToken(TokenType.IDENT);
             Token token = currentToken;
             EatToken(TokenType.ASSIGN);
-            IASTNode right = Expression();
+            IExpression right = Expression();
             EatToken(TokenType.SEMICOLON);
 
-            Statement node = new AssignStatement(left, right, token);
+            IStatement node = new AssignStatement(ident, right, token);
             return node;
         }
 
@@ -178,18 +179,18 @@ namespace LanguageLogic
 
         private Condition Condition()
         {
-            IASTNode left = Expression();
+            IExpression left = Expression();
             Token token = currentToken; //Condition (<,>...)
             EatToken(token.TokenType);
-            IASTNode right = Expression();
+            IExpression right = Expression();
 
             return new Condition(left, token, right);
         }
 
         #region NUMBER_EXPRESSION
-        private IASTNode Expression()
+        private IExpression Expression()
         {
-            IASTNode node = Term();
+            IExpression node = Term();
 
             while (currentToken.TokenType == TokenType.PLUS ||
                 currentToken.TokenType == TokenType.MINUS)
@@ -204,9 +205,9 @@ namespace LanguageLogic
             }
             return node;
         }
-        private IASTNode Term()
+        private IExpression Term()
         {
-            IASTNode node = Factor();
+            IExpression node = Factor();
 
             while (currentToken.TokenType == TokenType.MUL ||
                 currentToken.TokenType == TokenType.DIV)
@@ -222,7 +223,7 @@ namespace LanguageLogic
 
             return node;
         }
-        private IASTNode Factor()
+        private IExpression Factor()
         {
             Token token = currentToken;
 
@@ -244,13 +245,13 @@ namespace LanguageLogic
             else if(token.TokenType == TokenType.LPARENT)
             {
                 EatToken(TokenType.LPARENT);
-                IASTNode node = Expression();
+                IExpression node = Expression();
                 EatToken(TokenType.RPARENT);
                 return node;
             }
             else
             {
-                IASTNode node = Variable();
+                IExpression node = Variable();
                 return node;
             }
             throw new Exception("Factor did not return result");

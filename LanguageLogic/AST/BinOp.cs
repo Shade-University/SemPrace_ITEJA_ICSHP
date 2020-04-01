@@ -6,12 +6,12 @@ using System.Text;
 
 namespace LanguageLogic.AST
 {
-    public class BinOp : IASTNode
+    public class BinOp : IExpression
     {
-        public IASTNode Left { get; }
-        public IASTNode Right { get; }
+        public IExpression Left { get; }
+        public IExpression Right { get; }
         public Token Operation { get; } //Bin operace (+,-,*,/)
-        public BinOp(IASTNode left, Token operation, IASTNode right)
+        public BinOp(IExpression left, Token operation, IExpression right)
         {
             Left = left;
             Operation = operation;

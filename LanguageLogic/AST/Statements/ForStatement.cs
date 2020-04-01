@@ -4,21 +4,19 @@ using System.Text;
 
 namespace LanguageLogic.AST.Statements
 {
-    public class ForStatement : Statement
+    public class ForStatement : IStatement
     {
+        public IExpression FromExpression { get; } //From
+        public List<IStatement> BodyStatements { get; }
+        public IExpression ToExpression { get; } //To
 
-        public IASTNode Left { get; set; } //From
-
-        List<Statement> Body { get; set; }
-        public IASTNode Right { get; set; } //To
-
-        public ForStatement(IASTNode left, List<Statement> body, IASTNode right)
+        public ForStatement(IExpression from, List<IStatement> body, IExpression to)
         {
-            Left = left;
-            Right = right;
-            Body = Body;
+            FromExpression = from;
+            ToExpression = to;
+            BodyStatements = body;
         }
-        public override object Visit(INodeVisitor visitor)
+        public object Visit(INodeVisitor visitor)
         {
             return visitor.Visit_ForStatement(this);
         }

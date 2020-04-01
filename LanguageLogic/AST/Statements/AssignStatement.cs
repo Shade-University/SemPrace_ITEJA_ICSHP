@@ -5,20 +5,19 @@ using System.Text;
 
 namespace LanguageLogic.AST.Statements
 {
-    public class AssignStatement : Statement
+    public class AssignStatement : IStatement
     {
-        public Var Left { get; } // Variable
-        public IASTNode Right { get; } //EXpression to assign to variable
-
+        public string Identificator { get; } // Variable
+        public IExpression Expression { get; } //EXpression to assign to variable
         public Token Token { get; } // :=
 
-        public AssignStatement(Var left, IASTNode right, Token token)
+        public AssignStatement(string ident, IExpression expression, Token token)
         {
-            Left = left;
-            Right = right;
+            Identificator = ident;
+            Expression = expression;
             Token = token;
         }
-        public override object Visit(INodeVisitor visitor)
+        public object Visit(INodeVisitor visitor)
         {
             return visitor.Visit_Assign(this);
         }

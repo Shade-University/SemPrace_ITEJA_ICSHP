@@ -7,11 +7,11 @@ namespace LanguageLogic.AST
 {
     public class Condition : IASTNode
     {
-        public IASTNode Left { get; set; } //Variable or some expression (number)
-        public Token Token { get; set; } //Condition (<,>,<=,>=,==)
-        public IASTNode Right { get; set; } //Variable or some expression (number)
+        public IExpression Left { get;} //Variable or some expression (number)
+        public Token Token { get;} //Condition (<,>,<=,>=,==)
+        public IExpression Right { get;} //Variable or some expression (number)
 
-        public Condition(IASTNode left, Token token, IASTNode right)
+        public Condition(IExpression left, Token token, IExpression right)
         {
             Left = left;
             Token = token;

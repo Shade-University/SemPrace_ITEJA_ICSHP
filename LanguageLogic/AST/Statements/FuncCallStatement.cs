@@ -1,12 +1,19 @@
-﻿using System;
+﻿using LanguageLogic.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace LanguageLogic.AST.Statements
 {
-    public class FuncCallStatement : Statement
+    public class FuncCallStatement : IStatement
     {
-        public override object Visit(INodeVisitor visitor)
+        public Token Function { get; } //TODO Maybe Enum with callable functions
+        public FuncCallStatement(Token func)
+        {
+            Function = func;
+        }
+
+        public object Visit(INodeVisitor visitor)
         {
             return visitor.Visit_FuncCallStatement(this);
         }

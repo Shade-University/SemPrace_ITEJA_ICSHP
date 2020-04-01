@@ -7,13 +7,13 @@ namespace LanguageLogic.AST
 {
     public class Block : IASTNode
     {
-        public List<Var> Declarations { get; set; } = new List<Var>(); //Variables
-        public List<Statement> Childrens { get; set; } = new List<Statement>(); // Statements
+        public List<Var> Declarations { get; } = new List<Var>(); //Variables
+        public List<IStatement> BodyStatements { get; } = new List<IStatement>(); // Statements
 
-        public Block(List<Var> declarations, List<Statement> childrens)
+        public Block(List<Var> declarations, List<IStatement> childrens)
         {
             Declarations = declarations;
-            Childrens = childrens;
+            BodyStatements = childrens;
         }
 
         public object Visit(INodeVisitor visitor)

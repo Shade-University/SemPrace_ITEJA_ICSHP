@@ -31,9 +31,11 @@ namespace SemPrace_ITEJA_ICSHP
             actionTabs.SelectedIndex = 0;
         }
 
-        private void CreateNewFile_TabOpen_Click(object sender, RoutedEventArgs e)
+        private void ShowAST_Click(object sender, RoutedEventArgs e)
         {
-            mainViewModel.TabItems.Add(new TabItemViewModel() { Header = "AST Visualizer", Content = new ASTVisualizeTab()});
+            TabItemViewModel item = new TabItemViewModel() { Header = "AST Visualizer", Content = new ASTVisualizeTab() };
+            mainViewModel.TabItems.Add(item);
+            actionTabs.SelectedItem = item;
         }
 
         private void CloseTab(object sender, MouseButtonEventArgs e)

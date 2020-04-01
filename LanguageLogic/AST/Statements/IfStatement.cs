@@ -4,18 +4,18 @@ using System.Text;
 
 namespace LanguageLogic.AST.Statements
 {
-    public class IfStatement : Statement
+    public class IfStatement : IStatement
     {
-        public Condition Condition { get; set; }
-        public List<Statement> BodyStatements { get; set; }
+        public Condition Condition { get; }
+        public List<IStatement> BodyStatements { get; }
 
-        public IfStatement(Condition condition, List<Statement> statements)
+        public IfStatement(Condition condition, List<IStatement> statements)
         {
             Condition = condition;
             BodyStatements = statements;
         }
 
-        public override object Visit(INodeVisitor visitor)
+        public object Visit(INodeVisitor visitor)
         {
             return visitor.Visit_IfStatement(this);
         }

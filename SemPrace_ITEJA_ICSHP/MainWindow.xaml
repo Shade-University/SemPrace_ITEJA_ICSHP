@@ -19,15 +19,15 @@
               FontFamily="Tahoma"
               FontSize="14">
             <MenuItem Header="File">
-                <MenuItem Header="Create new file"
-                          Click="CreateNewFile_TabOpen_Click"/>
+                <MenuItem Header="Create new file"/>
                 <MenuItem Header="Open file..." />
                 <MenuItem Header="Save to file..." />
                 <MenuItem Header="Save" />
                 <MenuItem Header="Exit" />
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem Header="Show AST tree" />
+                <MenuItem Header="Show AST tree"
+                          Click="ShowAST_Click"/>
                 <MenuItem Header="Show generated code from history" />
             </MenuItem>
         </Menu>
