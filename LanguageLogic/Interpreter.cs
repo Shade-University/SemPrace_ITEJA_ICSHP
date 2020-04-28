@@ -4,7 +4,6 @@ using LanguageLogic.AST.Statements.Functions;
 using LanguageLogic.Tokens;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageLogic
 {
@@ -28,17 +27,21 @@ namespace LanguageLogic
 
         public object Visit_Assign(AssignStatement node)
         {
-            foreach (var item in context)
+            foreach (ExecutionContext item in context)
             {
                 if (item.VariableExist(node.Variable.Identifier))
                 {
-                    var value = node.Expression.Visit(this);
+                    object value = node.Expression.Visit(this);
                     item.AssignVariable(node.Variable.Identifier, value);
 
                     if (value is string)
+                    {
                         node.Variable.Type = VarType.STRING;
+                    }
                     else if (value is double)
+                    {
                         node.Variable.Type = VarType.DOUBLE;
+                    }
 
                     return null;
                 }
@@ -72,12 +75,12 @@ namespace LanguageLogic
         public object Visit_Block(Block node)
         {
             context.Push(new ExecutionContext()); //Vytvoř nový kontext
-            foreach (var item in node.Declarations)
+            foreach (VarDeclaration item in node.Declarations)
             {
                 item.Visit(this);
             }
 
-            foreach (var item in node.BodyStatements)
+            foreach (IStatement item in node.BodyStatements)
             {
                 item.Visit(this);
             }
@@ -89,7 +92,9 @@ namespace LanguageLogic
         public object Visit_VarDeclaration(VarDeclaration node)
         {
             if (context.Peek().VariableExist(node.Variable.Identifier))
+            {
                 throw new Exception("Variable already exist");
+            }
 
             context.Peek().DeclareVariable(node.Variable.Identifier);
             return null;
@@ -116,10 +121,12 @@ namespace LanguageLogic
 
         public object Visit_Var(Var node)
         {
-            foreach (var item in context)
+            foreach (ExecutionContext item in context)
             {
                 if (item.VariableExist(node.Identifier))
+                {
                     return item.GetVariable(node.Identifier);
+                }
             }
             //Pokus se získat proměnnou
             return null;
@@ -156,7 +163,9 @@ namespace LanguageLogic
         public object Visit_WhileStatement(WhileStatement whileStatement)
         {
             while ((bool)whileStatement.Condition.Visit(this))
+            {
                 whileStatement.BodyBlock.Visit(this);
+            }
 
             return null;
         }
@@ -164,8 +173,9 @@ namespace LanguageLogic
         public object Visit_IfStatement(IfStatement ifStatement)
         {
             if ((bool)ifStatement.Condition.Visit(this))
+            {
                 ifStatement.BodyBlock.Visit(this);
-
+            }
 
             return null;
         }
@@ -174,7 +184,9 @@ namespace LanguageLogic
         {
             double from = (double)node.FromExpression.Visit(this);
             for (; from < (double)node.ToExpression.Visit(this); from++)
+            {
                 node.BodyBlock.Visit(this);
+            }
 
             return null;
         }

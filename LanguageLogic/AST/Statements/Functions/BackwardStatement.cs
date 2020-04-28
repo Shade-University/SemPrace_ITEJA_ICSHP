@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LanguageLogic.AST.Statements.Functions
+﻿namespace LanguageLogic.AST.Statements.Functions
 {
     public class BackwardStatement : IStatement
     {

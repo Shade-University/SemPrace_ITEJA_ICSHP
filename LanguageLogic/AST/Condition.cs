@@ -1,15 +1,12 @@
 ﻿using LanguageLogic.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageLogic.AST
 {
     public class Condition : IASTNode
     {
-        public IExpression Left { get;} 
-        public Token Token { get;} //Condition (<,>,<=,>=,==)
-        public IExpression Right { get;} 
+        public IExpression Left { get; }
+        public Token Token { get; } //Condition (<,>,<=,>=,==)
+        public IExpression Right { get; }
 
         public Condition(IExpression left, Token token, IExpression right)
         {

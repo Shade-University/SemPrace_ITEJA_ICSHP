@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LanguageLogic.Tokens
+﻿namespace LanguageLogic.Tokens
 {
     public enum TokenType
     {

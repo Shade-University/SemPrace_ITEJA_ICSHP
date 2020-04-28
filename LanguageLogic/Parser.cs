@@ -4,7 +4,6 @@ using LanguageLogic.AST.Statements.Functions;
 using LanguageLogic.Tokens;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageLogic
 {
@@ -22,7 +21,9 @@ namespace LanguageLogic
         {
             Block node = Program();
             if (currentToken.TokenType != TokenType.EOF)
+            {
                 throw new Exception("Error");
+            }
 
             return node;
         }
@@ -30,9 +31,13 @@ namespace LanguageLogic
         private void EatToken(TokenType tokenType)
         {
             if (currentToken.TokenType == tokenType)
+            {
                 currentToken = lexer.GetNextToken();
+            }
             else
+            {
                 throw new Exception("Token type does not match");
+            }
         }
 
         private Block Program()
@@ -51,22 +56,24 @@ namespace LanguageLogic
             Block root = new Block(declarations, statements);
 
             return root;
-            
+
         }
 
         private List<VarDeclaration> Declarations()
         {
             List<VarDeclaration> results = new List<VarDeclaration>();
-            if(currentToken.TokenType == TokenType.VAR)
+            if (currentToken.TokenType == TokenType.VAR)
             {
                 EatToken(TokenType.VAR);
 
-                while(currentToken.TokenType == TokenType.IDENT)
+                while (currentToken.TokenType == TokenType.IDENT)
                 {
                     results.Add(new VarDeclaration(Variable()));
 
                     if (currentToken.TokenType == TokenType.COMA)
+                    {
                         EatToken(TokenType.COMA);
+                    }
                 }
                 EatToken(TokenType.SEMICOLON);
             }
@@ -78,7 +85,7 @@ namespace LanguageLogic
         {
             List<IStatement> results = new List<IStatement>();
 
-            while(currentToken.TokenType != TokenType.END && currentToken.TokenType != TokenType.RBRACKET)
+            while (currentToken.TokenType != TokenType.END && currentToken.TokenType != TokenType.RBRACKET)
             {
                 results.Add(Statement());
             }
@@ -88,7 +95,7 @@ namespace LanguageLogic
 
         private IStatement Statement()
         {
-            switch(currentToken.TokenType)
+            switch (currentToken.TokenType)
             {
                 case TokenType.IDENT: return AssignStatement();
                 case TokenType.FUNC: return FuncCallStatement();
@@ -254,10 +261,14 @@ namespace LanguageLogic
                 currentToken.TokenType == TokenType.MINUS)
             {
                 Token token = currentToken;
-                if(token.TokenType == TokenType.PLUS)
+                if (token.TokenType == TokenType.PLUS)
+                {
                     EatToken(TokenType.PLUS);
-                else if(token.TokenType == TokenType.MINUS)
+                }
+                else if (token.TokenType == TokenType.MINUS)
+                {
                     EatToken(TokenType.MINUS);
+                }
 
                 node = new BinOp(node, token, Term());
             }
@@ -272,9 +283,13 @@ namespace LanguageLogic
             {
                 Token token = currentToken;
                 if (token.TokenType == TokenType.MUL)
+                {
                     EatToken(TokenType.MUL);
+                }
                 else if (token.TokenType == TokenType.DIV)
+                {
                     EatToken(TokenType.DIV);
+                }
 
                 node = new BinOp(node, token, Factor());
             }
@@ -285,7 +300,7 @@ namespace LanguageLogic
         {
             Token token = currentToken;
 
-            if(token.TokenType == TokenType.PLUS)
+            if (token.TokenType == TokenType.PLUS)
             {
                 EatToken(TokenType.PLUS);
                 return new UnaryOp(token, Factor());
@@ -295,24 +310,24 @@ namespace LanguageLogic
                 EatToken(TokenType.MINUS);
                 return new UnaryOp(token, Factor());
             }
-            else if(token.TokenType == TokenType.NUMBER)
+            else if (token.TokenType == TokenType.NUMBER)
             {
                 EatToken(TokenType.NUMBER);
                 return new Num(token);
             }
-            else if(token.TokenType == TokenType.IDENT)
+            else if (token.TokenType == TokenType.IDENT)
             {
                 IExpression node = Variable();
                 return node;
             }
-            else if(token.TokenType == TokenType.LPARENT)
+            else if (token.TokenType == TokenType.LPARENT)
             {
                 EatToken(TokenType.LPARENT);
                 IExpression node = Expression();
                 EatToken(TokenType.RPARENT);
                 return node;
             }
-            else if(token.TokenType == TokenType.TEXT)
+            else if (token.TokenType == TokenType.TEXT)
             {
                 IExpression text = new StringText(currentToken);
                 EatToken(TokenType.TEXT);

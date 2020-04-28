@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LanguageLogic.AST
+﻿namespace LanguageLogic.AST
 {
     public interface IExpression : IASTNode
     {

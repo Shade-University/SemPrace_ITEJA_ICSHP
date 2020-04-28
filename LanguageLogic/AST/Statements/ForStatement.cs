@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LanguageLogic.AST.Statements
+﻿namespace LanguageLogic.AST.Statements
 {
     public class ForStatement : IStatement
     {

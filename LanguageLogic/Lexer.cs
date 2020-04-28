@@ -1,7 +1,6 @@
 ﻿using LanguageLogic.Tokens;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LanguageLogic
 {
@@ -56,19 +55,19 @@ namespace LanguageLogic
 
                 }
 
-                if(char.IsLetter(currentChar))
+                if (char.IsLetter(currentChar))
                 {
                     return EatId();
                 }
 
                 #region TwoChars
-                if(currentChar == '!' && Peek() == '=')
+                if (currentChar == '!' && Peek() == '=')
                 {
                     Advance();
                     Advance();
                     return new Token() { TokenType = TokenType.NOT_EQUAL, Value = "!=" };
                 }
-                if(currentChar == '<' && Peek() == '=')
+                if (currentChar == '<' && Peek() == '=')
                 {
                     Advance();
                     Advance();
@@ -176,7 +175,7 @@ namespace LanguageLogic
                     return new Token() { TokenType = TokenType.DIV, Value = "/" };
                 }
 
-                if(currentChar == '"')
+                if (currentChar == '"')
                 {
                     return EatString();
                 }
@@ -193,18 +192,26 @@ namespace LanguageLogic
         {
             pos += 1;
             if (pos > Text.Length - 1)
+            {
                 currentChar = char.MinValue;
+            }
             else
+            {
                 currentChar = Text[pos];
+            }
         }
 
         private char Peek()
         {
             int peek_position = pos + 1;
             if (peek_position > Text.Length - 1)
+            {
                 return char.MinValue;
+            }
             else
+            {
                 return Text[peek_position];
+            }
         }
 
         private Token EatId()
@@ -247,7 +254,7 @@ namespace LanguageLogic
                 Advance();
             }
 
-            if(currentChar.Equals(','))
+            if (currentChar.Equals(','))
             {
                 result += currentChar;
                 Advance();
@@ -264,7 +271,9 @@ namespace LanguageLogic
         private void SkipWhiteSpaces()
         {
             while (currentChar != char.MinValue && char.IsWhiteSpace(currentChar))
+            {
                 Advance();
+            }
         }
     }
 }

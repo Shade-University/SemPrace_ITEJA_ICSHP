@@ -1,12 +1,10 @@
-﻿using LanguageLogic.AST;
-using System;
-using System.Linq;
+﻿using System;
 
 namespace LanguageLogic
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             string Example1 = @"
                     var first, second, temp, afterSwap, x;
@@ -41,6 +39,7 @@ namespace LanguageLogic
                     }
             END.
              ";
+
             Lexer lexer = new Lexer(Example1);
             Parser parser = new Parser(lexer);
             Interpreter interpreter = new Interpreter(parser);

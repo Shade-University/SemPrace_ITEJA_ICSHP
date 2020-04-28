@@ -1,9 +1,4 @@
-﻿using LanguageLogic.AST;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LanguageLogic.AST
+﻿namespace LanguageLogic.AST
 {
     public interface IASTNode //Interface representing Node in AST
     {
