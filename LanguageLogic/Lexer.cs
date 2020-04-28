@@ -22,14 +22,21 @@ namespace LanguageLogic
             reservedKeyWords = new Dictionary<string, Token>()
             {
                 { "END", new Token() {TokenType = TokenType.END, Value = "END" } },
-                { "VAR", new Token() {TokenType = TokenType.VAR, Value = "VAR" } },
-                { "FUNC", new Token() {TokenType = TokenType.FUNC, Value = "FUNC" } },
-                { "IF", new Token() {TokenType = TokenType.IF, Value = "IF" } },
-                { "THEN", new Token() {TokenType = TokenType.THEN, Value = "THEN" } },
-                { "WHILE", new Token() {TokenType = TokenType.WHILE, Value = "WHILE" } },
-                { "DO", new Token() {TokenType = TokenType.DO, Value = "DO" } },
-                { "FOR", new Token() {TokenType = TokenType.FOR, Value = "FOR" } },
-                { "TO", new Token() {TokenType = TokenType.TO, Value = "TO" } },
+                { "var", new Token() {TokenType = TokenType.VAR, Value = "var" } },
+                { "func", new Token() {TokenType = TokenType.FUNC, Value = "func" } },
+                { "if", new Token() {TokenType = TokenType.IF, Value = "if" } },
+                { "then", new Token() {TokenType = TokenType.THEN, Value = "then" } },
+                { "while", new Token() {TokenType = TokenType.WHILE, Value = "while" } },
+                { "do", new Token() {TokenType = TokenType.DO, Value = "do" } },
+                { "for", new Token() {TokenType = TokenType.FOR, Value = "for" } },
+                { "to", new Token() {TokenType = TokenType.TO, Value = "to" } },
+
+                { "write", new Token() {TokenType = TokenType.WRITE, Value = "write" } },
+                { "pen", new Token() {TokenType = TokenType.PEN, Value = "pen" } },
+                { "angle", new Token() {TokenType = TokenType.ANGLE, Value = "angle" } },
+                { "backward", new Token() {TokenType = TokenType.BACKWARD, Value = "backward" } },
+                { "forward", new Token() {TokenType = TokenType.FORWARD, Value = "forward" } },
+
             };
         }
 
@@ -55,6 +62,12 @@ namespace LanguageLogic
                 }
 
                 #region TwoChars
+                if(currentChar == '!' && Peek() == '=')
+                {
+                    Advance();
+                    Advance();
+                    return new Token() { TokenType = TokenType.NOT_EQUAL, Value = "!=" };
+                }
                 if(currentChar == '<' && Peek() == '=')
                 {
                     Advance();
@@ -163,6 +176,11 @@ namespace LanguageLogic
                     return new Token() { TokenType = TokenType.DIV, Value = "/" };
                 }
 
+                if(currentChar == '"')
+                {
+                    return EatString();
+                }
+
                 #endregion
 
                 throw new Exception("Unknown token"); //Unknown token
@@ -198,12 +216,26 @@ namespace LanguageLogic
                 Advance();
             }
 
-            if (reservedKeyWords.TryGetValue(result.ToUpper(), out Token keyword))
+            if (reservedKeyWords.TryGetValue(result, out Token keyword))
             {
                 return keyword;
             }
 
             return new Token() { TokenType = TokenType.IDENT, Value = result };
+        }
+
+        private Token EatString()
+        {
+            string result = "";
+            Advance(); //Skip "
+            while (currentChar != char.MinValue && !currentChar.Equals('"'))
+            {
+                result += currentChar;
+                Advance();
+            }
+            Advance(); //Skip "
+
+            return new Token() { TokenType = TokenType.TEXT, Value = result };
         }
 
         private string EatInt()
@@ -214,8 +246,19 @@ namespace LanguageLogic
                 result += currentChar;
                 Advance();
             }
+
+            if(currentChar.Equals(','))
+            {
+                result += currentChar;
+                Advance();
+
+                while (currentChar != char.MinValue && char.IsDigit(currentChar))
+                {
+                    result += currentChar;
+                    Advance();
+                }
+            }
             return result;
-            //TODO Double numbers
         }
 
         private void SkipWhiteSpaces()
@@ -223,7 +266,5 @@ namespace LanguageLogic
             while (currentChar != char.MinValue && char.IsWhiteSpace(currentChar))
                 Advance();
         }
-
-        //TODO Skip comments
     }
 }

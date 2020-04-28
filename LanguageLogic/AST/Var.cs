@@ -5,15 +5,24 @@ using System.Text;
 
 namespace LanguageLogic.AST
 {
+    public enum VarType
+    {
+        STRING,
+        DOUBLE,
+        NONE
+    }
+
     public class Var : IExpression
     {
-        public string Value { get; } //Variable name
+        public string Identifier { get; } //Variable name
+        public VarType Type { get; set; }
         public Token Token { get; }
 
         public Var(Token token)
         {
-            Value = token.Value;
+            Identifier = token.Value;
             Token = token;
+            Type = VarType.NONE;
         }
 
         public object Visit(INodeVisitor visitor)

@@ -7,13 +7,13 @@ namespace LanguageLogic.AST.Statements
 {
     public class AssignStatement : IStatement
     {
-        public string Identificator { get; } // Variable
+        public Var Variable { get; } // Variable
         public IExpression Expression { get; } //EXpression to assign to variable
         public Token Token { get; } // :=
 
-        public AssignStatement(string ident, IExpression expression, Token token)
+        public AssignStatement(Var variable, IExpression expression, Token token)
         {
-            Identificator = ident;
+            Variable = variable;
             Expression = expression;
             Token = token;
         }

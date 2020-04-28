@@ -1,5 +1,6 @@
 ﻿using LanguageLogic.AST;
 using LanguageLogic.AST.Statements;
+using LanguageLogic.AST.Statements.Functions;
 using LanguageLogic.Tokens;
 using System;
 using System.Collections.Generic;
@@ -38,12 +39,13 @@ namespace LanguageLogic
         {
             Block node = Block();
             EatToken(TokenType.END);
+            EatToken(TokenType.DOT);
             return node;
         }
 
         private Block Block()
         {
-            List<Var> declarations = Declarations();
+            List<VarDeclaration> declarations = Declarations();
             List<IStatement> statements = Statements();
 
             Block root = new Block(declarations, statements);
@@ -52,17 +54,16 @@ namespace LanguageLogic
             
         }
 
-        private List<Var> Declarations()
+        private List<VarDeclaration> Declarations()
         {
-            List<Var> results = new List<Var>();
+            List<VarDeclaration> results = new List<VarDeclaration>();
             if(currentToken.TokenType == TokenType.VAR)
             {
                 EatToken(TokenType.VAR);
 
                 while(currentToken.TokenType == TokenType.IDENT)
                 {
-                    results.Add(new Var(currentToken));
-                    EatToken(TokenType.IDENT);
+                    results.Add(new VarDeclaration(Variable()));
 
                     if (currentToken.TokenType == TokenType.COMA)
                         EatToken(TokenType.COMA);
@@ -154,19 +155,90 @@ namespace LanguageLogic
 
         private IStatement FuncCallStatement()
         {
-            throw new NotImplementedException();
+            EatToken(TokenType.FUNC);
+
+            switch (currentToken.TokenType)
+            {
+                case TokenType.FORWARD:
+                    return ForwardStatement();
+                case TokenType.BACKWARD:
+                    return BackwardStatement();
+                case TokenType.PEN:
+                    return PenStatement();
+                case TokenType.ANGLE:
+                    return AngleStatement();
+                case TokenType.WRITE:
+                    return WriteStatement();
+                default:
+                    throw new Exception("Unknown function call");
+            }
+
+        }
+
+        private IStatement WriteStatement()
+        {
+            EatToken(TokenType.WRITE);
+            EatToken(TokenType.LPARENT);
+            WriteStatement writeStatement = new WriteStatement(Expression()); //TODO Handle string
+            EatToken(TokenType.RPARENT);
+
+            return writeStatement;
+        }
+
+        private IStatement AngleStatement()
+        {
+            EatToken(TokenType.ANGLE);
+            EatToken(TokenType.LPARENT);
+            AngleStatement angleStatement = new AngleStatement(Expression());
+            EatToken(TokenType.RPARENT);
+
+            return angleStatement;
+        }
+
+        private IStatement PenStatement()
+        {
+            EatToken(TokenType.PEN);
+            EatToken(TokenType.LPARENT);
+            PenStatement penStatement = new PenStatement(PenStatus());
+            EatToken(TokenType.RPARENT);
+
+            return penStatement;
+        }
+
+        private PenStatus PenStatus()
+        {
+            return AST.Statements.Functions.PenStatus.UP; //TODO Penstatus
+        }
+
+        private IStatement BackwardStatement()
+        {
+            EatToken(TokenType.BACKWARD);
+            EatToken(TokenType.LPARENT);
+            BackwardStatement backwardStatement = new BackwardStatement(Expression());
+            EatToken(TokenType.RPARENT);
+
+            return backwardStatement;
+        }
+
+        private IStatement ForwardStatement()
+        {
+            EatToken(TokenType.FORWARD);
+            EatToken(TokenType.LPARENT);
+            ForwardStatement forwardStatement = new ForwardStatement(Expression());
+            EatToken(TokenType.RPARENT);
+
+            return forwardStatement;
         }
 
         private IStatement AssignStatement()
         {
-            string ident = currentToken.Value;
-            EatToken(TokenType.IDENT);
+            Var var = Variable();
             Token token = currentToken;
             EatToken(TokenType.ASSIGN);
             IExpression right = Expression();
             EatToken(TokenType.SEMICOLON);
 
-            IStatement node = new AssignStatement(ident, right, token);
+            IStatement node = new AssignStatement(var, right, token);
             return node;
         }
 
@@ -242,6 +314,11 @@ namespace LanguageLogic
                 EatToken(TokenType.NUMBER);
                 return new Num(token);
             }
+            else if(token.TokenType == TokenType.IDENT)
+            {
+                IExpression node = Variable();
+                return node;
+            }
             else if(token.TokenType == TokenType.LPARENT)
             {
                 EatToken(TokenType.LPARENT);
@@ -249,11 +326,13 @@ namespace LanguageLogic
                 EatToken(TokenType.RPARENT);
                 return node;
             }
-            else
+            else if(token.TokenType == TokenType.TEXT)
             {
-                IExpression node = Variable();
-                return node;
+                IExpression text = new StringText(currentToken);
+                EatToken(TokenType.TEXT);
+                return text;
             }
+
             throw new Exception("Factor did not return result");
         }
         #endregion

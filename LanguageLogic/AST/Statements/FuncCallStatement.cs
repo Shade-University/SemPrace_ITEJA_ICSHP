@@ -7,8 +7,8 @@ namespace LanguageLogic.AST.Statements
 {
     public class FuncCallStatement : IStatement
     {
-        public Token Function { get; } //TODO Maybe Enum with callable functions
-        public FuncCallStatement(Token func)
+        public IStatement Function { get; }
+        public FuncCallStatement(IStatement func)
         {
             Function = func;
         }

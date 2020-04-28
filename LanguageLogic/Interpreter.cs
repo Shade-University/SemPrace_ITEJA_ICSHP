@@ -1,5 +1,6 @@
 ﻿using LanguageLogic.AST;
 using LanguageLogic.AST.Statements;
+using LanguageLogic.AST.Statements.Functions;
 using LanguageLogic.Tokens;
 using System;
 using System.Collections.Generic;
@@ -10,47 +11,59 @@ namespace LanguageLogic
     public class Interpreter : INodeVisitor
     {
         private Parser parser;
-
-        private Dictionary<string, int> variables;
+        private Stack<ExecutionContext> context;
         public Interpreter(Parser parser)
         {
             this.parser = parser;
-            variables = new Dictionary<string, int>();
+            context = new Stack<ExecutionContext>();
         }
 
 
         public void Interpret()
         {
-            //TODO
+            context.Push(new ExecutionContext());
+            Block block = parser.Parse();
+            block.Visit(this);
         }
 
         public object Visit_Assign(AssignStatement node)
         {
-            variables.Add(
-                node.Identificator,
-                (int)node.Expression.Visit(this)
-              );
+            foreach (var item in context)
+            {
+                if(item.VariableExist(node.Variable.Identifier))
+                {
+                    var value = node.Expression.Visit(this);
+                    item.AssignVariable(node.Variable.Identifier, value);
 
-            return null;
+                    if (value is string)
+                        node.Variable.Type = VarType.STRING;
+                    else if (value is double)
+                        node.Variable.Type = VarType.DOUBLE;
+
+                    return null;
+                }
+            }
+
+            throw new Exception("Cant assign to non-existing variable");
         }
 
         public object Visit_BinOp(BinOp node)
         {
             if (node.Operation.TokenType == TokenType.PLUS)
             {
-                return (int)node.Left.Visit(this) + (int)node.Right.Visit(this);
+                return (double)node.Left.Visit(this) + (double)node.Right.Visit(this);
             }
             else if (node.Operation.TokenType == TokenType.MINUS)
             {
-                return (int)node.Left.Visit(this) - (int)node.Right.Visit(this);
+                return (double)node.Left.Visit(this) - (double)node.Right.Visit(this);
             }
             else if (node.Operation.TokenType == TokenType.MUL)
             {
-                return (int)node.Left.Visit(this) * (int)node.Right.Visit(this);
+                return (double)node.Left.Visit(this) * (double)node.Right.Visit(this);
             }
             else if (node.Operation.TokenType == TokenType.DIV)
             {
-                return (int)node.Left.Visit(this) / (int)node.Right.Visit(this);
+                return (double)node.Left.Visit(this) / (double)node.Right.Visit(this);
             }
 
             throw new Exception("Unknown BinOP TokenType");
@@ -58,6 +71,7 @@ namespace LanguageLogic
 
         public object Visit_Block(Block node)
         {
+            context.Push(new ExecutionContext()); //Vytvoř nový kontext
             foreach (var item in node.Declarations)
             {
                 item.Visit(this);
@@ -67,13 +81,18 @@ namespace LanguageLogic
             {
                 item.Visit(this);
             }
+            context.Pop(); //Odstraň kontext
 
-            return null; //TODO
+            return null;
         }
 
         public object Visit_VarDeclaration(VarDeclaration node)
         {
-            return null; //TODO
+            if (context.Peek().VariableExist(node.Variable.Identifier))
+                throw new Exception("Variable already exist");
+
+            context.Peek().DeclareVariable(node.Variable.Identifier);
+            return null;
         }
 
         public object Visit_Num(Num node)
@@ -85,11 +104,11 @@ namespace LanguageLogic
         {
             if (node.Token.TokenType == TokenType.PLUS)
             {
-                return +(int)node.Expression.Visit(this);
+                return +(double)node.Expression.Visit(this);
             }
             else if (node.Token.TokenType == TokenType.MINUS)
             {
-                return -(int)node.Expression.Visit(this);
+                return -(double)node.Expression.Visit(this);
             }
 
             throw new Exception("Unknown UnaryOP TokenType");
@@ -97,38 +116,110 @@ namespace LanguageLogic
 
         public object Visit_Var(Var node)
         {
-
-            if (variables.TryGetValue(node.Value, out int result))
+            foreach (var item in context)
             {
-                return result;
+                if (item.VariableExist(node.Identifier))
+                    return item.GetVariable(node.Identifier);
             }
-
-            throw new Exception("Variable doesnt exist");
+            //Pokus se získat proměnnou
+            return null;
         }
 
         public object Visit_Condition(Condition condition)
         {
-            throw new NotImplementedException();
+            switch (condition.Token.TokenType)
+            {
+                case TokenType.EQUALS:
+                    return condition.Left.Visit(this).Equals(condition.Right.Visit(this));
+                case TokenType.LESS_OR_EQUAL:
+                    return (double)condition.Left.Visit(this) <= (double)condition.Right.Visit(this);
+                case TokenType.MORE_OR_EQUAL:
+                    return (double)condition.Left.Visit(this) >= (double)condition.Right.Visit(this);
+                case TokenType.LESS:
+                    return (double)condition.Left.Visit(this) < (double)condition.Right.Visit(this);
+                case TokenType.MORE:
+                    return (double)condition.Left.Visit(this) > (double)condition.Right.Visit(this);
+                case TokenType.NOT_EQUAL:
+                    return !condition.Left.Visit(this).Equals(condition.Right.Visit(this));
+                default:
+                    throw new Exception("Invalid condition token"); //Podmínky upravit i na text
+            }
         }
 
         public object Visit_FuncCallStatement(FuncCallStatement funcCallStatement)
         {
-            throw new NotImplementedException();
+            funcCallStatement.Function.Visit(this);
+
+            return null;
         }
 
         public object Visit_WhileStatement(WhileStatement whileStatement)
         {
-            throw new NotImplementedException();
+            while ((bool)whileStatement.Condition.Visit(this))
+            {
+                context.Push(new ExecutionContext());
+                whileStatement.BodyStatements.ForEach(x => x.Visit(this));
+                context.Pop();
+            }
+
+            return null;
         }
 
         public object Visit_IfStatement(IfStatement ifStatement)
         {
-            throw new NotImplementedException();
+            if ((bool)ifStatement.Condition.Visit(this))
+            {
+                context.Push(new ExecutionContext());
+                ifStatement.BodyStatements.ForEach(x => x.Visit(this));
+                context.Pop();
+            }
+
+            return null;
         }
 
         public object Visit_ForStatement(ForStatement node)
         {
+            double from = (double)node.FromExpression.Visit(this);
+            for (; from < (double)node.ToExpression.Visit(this); from++)
+            {
+                context.Push(new ExecutionContext());
+                node.BodyStatements.ForEach(x => x.Visit(this));
+                context.Pop();
+            }
+
+            return null;
+        }
+
+        public object Visit_AngleStatement(AngleStatement angleStatement)
+        {
             throw new NotImplementedException();
+        }
+
+        public object Visit_BackwardStatement(BackwardStatement backwardStatement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit_ForwardStatement(ForwardStatement forwardStatement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit_WriteStatement(WriteStatement writeStatement)
+        {
+            Console.WriteLine(writeStatement.Expression.Visit(this));
+
+            return null;
+        }
+
+        public object Visit_PenStatement(PenStatement penStatement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit_StringText(StringText stringText)
+        {
+            return stringText.Text;
         }
     }
 }

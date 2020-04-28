@@ -27,11 +27,12 @@ namespace LanguageLogic.Tokens
         ASSIGN,
         LESS,
         MORE,
-        LQUOTE,
-        RQUOTE,
+        QUOTE,
+        TEXT,
 
         LESS_OR_EQUAL,
         MORE_OR_EQUAL,
+        NOT_EQUAL,
         EQUALS,
 
         NUMBER,
@@ -39,6 +40,12 @@ namespace LanguageLogic.Tokens
         MINUS,
         MUL,
         DIV,
+
+        WRITE,
+        PEN,
+        ANGLE,
+        FORWARD,
+        BACKWARD,
 
         EOF
     }

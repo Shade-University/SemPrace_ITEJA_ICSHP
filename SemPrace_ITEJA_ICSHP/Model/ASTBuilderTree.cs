@@ -1,6 +1,7 @@
 ﻿using LanguageLogic;
 using LanguageLogic.AST;
 using LanguageLogic.AST.Statements;
+using LanguageLogic.AST.Statements.Functions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,6 +24,11 @@ namespace GUI.Model
             view.Items.Add(rootItem);
         }
 
+        public object Visit_AngleStatement(AngleStatement angleStatement)
+        {
+            throw new NotImplementedException();
+        }
+
         public object Visit_Assign(AssignStatement node)
         { 
             TreeViewItem item = new TreeViewItem();
@@ -35,6 +41,11 @@ namespace GUI.Model
             item.Items.Add(varItem);
 
             return item;
+        }
+
+        public object Visit_BackwardStatement(BackwardStatement backwardStatement)
+        {
+            throw new NotImplementedException();
         }
 
         public object Visit_BinOp(BinOp node)
@@ -87,6 +98,11 @@ namespace GUI.Model
             throw new NotImplementedException();
         }
 
+        public object Visit_ForwardStatement(ForwardStatement forwardStatement)
+        {
+            throw new NotImplementedException();
+        }
+
         public object Visit_FuncCallStatement(FuncCallStatement funcCallStatement)
         {
             throw new NotImplementedException();
@@ -104,6 +120,11 @@ namespace GUI.Model
             return item;
         }
 
+        public object Visit_PenStatement(PenStatement penStatement)
+        {
+            throw new NotImplementedException();
+        }
+
         public object Visit_UnaryOp(UnaryOp node)
         {
             TreeViewItem item = new TreeViewItem();
@@ -116,7 +137,7 @@ namespace GUI.Model
         public object Visit_Var(Var node)
         {
             TreeViewItem item = new TreeViewItem();
-            item.Header = "Var " + node.Value;
+            item.Header = "Var " + node.Identifier;
 
             return item;
         }
@@ -127,6 +148,11 @@ namespace GUI.Model
         }
 
         public object Visit_WhileStatement(WhileStatement whileStatement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit_WriteStatement(WriteStatement writeStatement)
         {
             throw new NotImplementedException();
         }

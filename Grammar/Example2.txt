@@ -1,0 +1,27 @@
+var x;
+
+while x < 10 do
+{
+	var y;
+	y = x + 1;
+	func write(y)
+	x = y;
+	func write(x)
+	
+	if x != y then { func write("error") }
+}
+
+if x < 20 then
+{
+	func pen(down)
+	func forward(x + 10)
+	func angle(90)
+	func forward(x + 10)
+	func angle(90)
+	func forward(x + 10)
+	func angle(90)
+	func forward(x + 10)
+}
+
+END.
+

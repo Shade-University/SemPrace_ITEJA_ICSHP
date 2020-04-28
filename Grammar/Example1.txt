@@ -1,0 +1,18 @@
+var x, y;
+
+x = 10 - 5;
+y = 0;
+for 1 to x do
+{
+	y = y + 1;
+	func write(y)
+}
+if y < 5 1 then 
+{
+	func pen(down)
+	func forward(y)
+	func write("success")
+	func pen(up)
+}
+
+END.

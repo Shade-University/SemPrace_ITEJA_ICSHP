@@ -8,29 +8,42 @@ namespace LanguageLogic
     {
         static void Main(string[] args)
         {
-            string my_lang = @"
-            var x, y;
+            string Example1 = @"
+                    var first, second, temp, afterSwap, x;
 
-            x = 10 - 5;
-            y = 0;
-            for 1 to x do
-            {
-	            y = y + 1;
-            }
-            if y < 51 then 
-            {
-            }
+                    afterSwap = ""After swap: First number 8, Second number: 5"";
 
-                    END
+                    func write(""First number: 5"")
+                    func write(""Second number: 8"")
+                    first = 5;
+                    second = first + 3;
+                    func write(afterSwap)
 
+                    if first != second then
+                    {
+                        temp = first;
+                        first = second;
+                        second = temp;
+                    }
+                    func write(first)
+                    func write(second)
+                    func write(""\n"")
+
+                    x = 0;
+                    for 1 to 10 do
+                    {
+                        x = x + 1;
+                        if x / 2 == 1 then
+                        { func write(x) }
+                    }
+            END.
              ";
-            Lexer lexer = new Lexer(my_lang);
+            Lexer lexer = new Lexer(Example1);
             Parser parser = new Parser(lexer);
-            /*Interpreter interpreter = new Interpreter(parser);
-            interpreter.Interpret();*/
+            Interpreter interpreter = new Interpreter(parser);
+            interpreter.Interpret();
 
-            Block node = parser.Parse();
-
+            Console.WriteLine("Completed");
             Console.ReadKey();
         }
     }

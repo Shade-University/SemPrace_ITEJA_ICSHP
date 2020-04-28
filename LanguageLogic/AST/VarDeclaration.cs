@@ -6,12 +6,11 @@ namespace LanguageLogic.AST
 {
     public class VarDeclaration : IASTNode
     {
-        public Var Node { get; }
-        //TODO Type
+        public Var Variable { get; }
 
         public VarDeclaration(Var node)
         {
-            Node = node;
+            Variable = node;
         }
 
         public object Visit(INodeVisitor visitor)
