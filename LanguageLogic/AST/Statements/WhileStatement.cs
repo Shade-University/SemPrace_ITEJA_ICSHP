@@ -7,12 +7,12 @@ namespace LanguageLogic.AST.Statements
     public class WhileStatement : IStatement
     {
         public Condition Condition { get; } //Condition
-        public List<IStatement> BodyStatements { get; } //Body
+        public Block BodyBlock { get; } //Body
 
-        public WhileStatement(Condition condition, List<IStatement> statements)
+        public WhileStatement(Condition condition, Block block)
         {
             Condition = condition;
-            BodyStatements = statements;
+            BodyBlock = block;
         }
         public object Visit(INodeVisitor visitor)
         {

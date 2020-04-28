@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LanguageLogic.AST
 {
-    public class StringText : IExpression
+    public class StringText : IExpression //Node representing text string
     {
         public string Text { get; }
         public Token Token { get; }

@@ -32,7 +32,10 @@ namespace LanguageLogic
                     x = 0;
                     for 1 to 10 do
                     {
-                        x = x + 1;
+                        var y;
+                        y = 1;
+
+                        x = x + y;
                         if x / 2 == 1 then
                         { func write(x) }
                     }

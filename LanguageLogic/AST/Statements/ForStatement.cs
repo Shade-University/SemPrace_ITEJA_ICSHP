@@ -7,14 +7,14 @@ namespace LanguageLogic.AST.Statements
     public class ForStatement : IStatement
     {
         public IExpression FromExpression { get; } //From
-        public List<IStatement> BodyStatements { get; }
+        public Block BodyBlock { get; } //Body
         public IExpression ToExpression { get; } //To
 
-        public ForStatement(IExpression from, List<IStatement> body, IExpression to)
+        public ForStatement(IExpression from, Block body, IExpression to)
         {
             FromExpression = from;
             ToExpression = to;
-            BodyStatements = body;
+            BodyBlock = body;
         }
         public object Visit(INodeVisitor visitor)
         {

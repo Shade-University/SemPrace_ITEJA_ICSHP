@@ -30,7 +30,7 @@ namespace LanguageLogic
         {
             foreach (var item in context)
             {
-                if(item.VariableExist(node.Variable.Identifier))
+                if (item.VariableExist(node.Variable.Identifier))
                 {
                     var value = node.Expression.Visit(this);
                     item.AssignVariable(node.Variable.Identifier, value);
@@ -156,11 +156,7 @@ namespace LanguageLogic
         public object Visit_WhileStatement(WhileStatement whileStatement)
         {
             while ((bool)whileStatement.Condition.Visit(this))
-            {
-                context.Push(new ExecutionContext());
-                whileStatement.BodyStatements.ForEach(x => x.Visit(this));
-                context.Pop();
-            }
+                whileStatement.BodyBlock.Visit(this);
 
             return null;
         }
@@ -168,11 +164,8 @@ namespace LanguageLogic
         public object Visit_IfStatement(IfStatement ifStatement)
         {
             if ((bool)ifStatement.Condition.Visit(this))
-            {
-                context.Push(new ExecutionContext());
-                ifStatement.BodyStatements.ForEach(x => x.Visit(this));
-                context.Pop();
-            }
+                ifStatement.BodyBlock.Visit(this);
+
 
             return null;
         }
@@ -181,11 +174,7 @@ namespace LanguageLogic
         {
             double from = (double)node.FromExpression.Visit(this);
             for (; from < (double)node.ToExpression.Visit(this); from++)
-            {
-                context.Push(new ExecutionContext());
-                node.BodyStatements.ForEach(x => x.Visit(this));
-                context.Pop();
-            }
+                node.BodyBlock.Visit(this);
 
             return null;
         }

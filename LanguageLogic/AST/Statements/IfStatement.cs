@@ -7,12 +7,12 @@ namespace LanguageLogic.AST.Statements
     public class IfStatement : IStatement
     {
         public Condition Condition { get; }
-        public List<IStatement> BodyStatements { get; } //TODO Tady by měl být block!!!! A všude i ve while atd
+        public Block BodyBlock { get; } //Body
 
-        public IfStatement(Condition condition, List<IStatement> statements)
+        public IfStatement(Condition condition, Block bodyBlock)
         {
             Condition = condition;
-            BodyStatements = statements;
+            BodyBlock = bodyBlock;
         }
 
         public object Visit(INodeVisitor visitor)

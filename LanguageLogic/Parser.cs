@@ -78,7 +78,7 @@ namespace LanguageLogic
         {
             List<IStatement> results = new List<IStatement>();
 
-            while(currentToken.TokenType != TokenType.END)
+            while(currentToken.TokenType != TokenType.END && currentToken.TokenType != TokenType.RBRACKET)
             {
                 results.Add(Statement());
             }
@@ -108,15 +108,9 @@ namespace LanguageLogic
             IExpression right = Expression();
             EatToken(TokenType.DO);
             EatToken(TokenType.LBRACKET);
-
-            List<IStatement> statements = new List<IStatement>();
-            while (currentToken.TokenType != TokenType.RBRACKET)
-            {
-                statements.Add(Statement());
-            }
-
+            Block block = Block();
             EatToken(TokenType.RBRACKET);
-            return new ForStatement(left, statements, right);
+            return new ForStatement(left, block, right);
         }
 
         private IStatement WhileStatement()
@@ -126,14 +120,10 @@ namespace LanguageLogic
             EatToken(TokenType.DO);
             EatToken(TokenType.LBRACKET);
 
-            List<IStatement> statements = new List<IStatement>();
-            while (currentToken.TokenType != TokenType.RBRACKET)
-            {
-                statements.Add(Statement());
-            }
+            Block block = Block();
 
             EatToken(TokenType.RBRACKET);
-            return new WhileStatement(condition, statements);
+            return new WhileStatement(condition, block);
         }
 
         private IStatement IfStatement()
@@ -143,14 +133,10 @@ namespace LanguageLogic
             EatToken(TokenType.THEN);
             EatToken(TokenType.LBRACKET);
 
-            List<IStatement> statements = new List<IStatement>();
-            while (currentToken.TokenType != TokenType.RBRACKET)
-            {
-                statements.Add(Statement());
-            }
+            Block block = Block();
 
             EatToken(TokenType.RBRACKET);
-            return new IfStatement(condition, statements);
+            return new IfStatement(condition, block);
         }
 
         private IStatement FuncCallStatement()
@@ -179,7 +165,7 @@ namespace LanguageLogic
         {
             EatToken(TokenType.WRITE);
             EatToken(TokenType.LPARENT);
-            WriteStatement writeStatement = new WriteStatement(Expression()); //TODO Handle string
+            WriteStatement writeStatement = new WriteStatement(Expression());
             EatToken(TokenType.RPARENT);
 
             return writeStatement;
@@ -259,8 +245,8 @@ namespace LanguageLogic
             return new Condition(left, token, right);
         }
 
-        #region NUMBER_EXPRESSION
-        private IExpression Expression()
+        #region EXPRESSION
+        private IExpression Expression() //Expression can be string, variable or some mathematical expression
         {
             IExpression node = Term();
 

@@ -7,7 +7,7 @@ namespace LanguageLogic.AST
 {
     public class Block : IASTNode
     {
-        public List<VarDeclaration> Declarations { get; } = new List<VarDeclaration>(); //Variables
+        public List<VarDeclaration> Declarations { get; } = new List<VarDeclaration>(); //Empty variables
         public List<IStatement> BodyStatements { get; } = new List<IStatement>(); // Statements
 
         public Block(List<VarDeclaration> declarations, List<IStatement> childrens)

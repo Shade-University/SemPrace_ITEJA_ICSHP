@@ -7,7 +7,7 @@ namespace LanguageLogic.AST.Statements
 {
     public class FuncCallStatement : IStatement
     {
-        public IStatement Function { get; }
+        public IStatement Function { get; } //Functions is also statemenets
         public FuncCallStatement(IStatement func)
         {
             Function = func;

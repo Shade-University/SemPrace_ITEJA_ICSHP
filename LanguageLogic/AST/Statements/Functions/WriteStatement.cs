@@ -6,11 +6,11 @@ namespace LanguageLogic.AST.Statements.Functions
 {
     public class WriteStatement : IStatement
     {
-        public IExpression Expression { get; } //Variable or number
+        public IExpression Expression { get; }
 
         public WriteStatement(IExpression expression)
         {
-            this.Expression = expression;
+            Expression = expression;
         }
         public object Visit(INodeVisitor visitor)
         {
