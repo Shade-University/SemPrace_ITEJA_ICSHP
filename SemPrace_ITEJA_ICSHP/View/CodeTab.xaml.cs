@@ -42,8 +42,7 @@ namespace GUI.View
                     currentFile = saveFileDialog.FileName;
                 }
             }
-            string output = RichTextBoxFormatter.GetFormattedCode(txtBox_Code.Text);
-            File.WriteAllText(currentFile, output);
+            File.WriteAllText(currentFile, txtBox_Code.Text);
         }
 
         private void btnCompile_Click(object sender, RoutedEventArgs e)
@@ -55,7 +54,7 @@ namespace GUI.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Compilation unsuccesufull", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Compilation fail", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

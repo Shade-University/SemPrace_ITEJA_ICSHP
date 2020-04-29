@@ -48,7 +48,7 @@ namespace SemPrace_ITEJA_ICSHP
 
         private void ShowAST_Click(object sender, RoutedEventArgs e)
         {
-            OpenNewTab("AST Visualizer", new ASTVisualizeTab(), true);
+            OpenNewTab("AST Visualizer", new ASTVisualizeTab(shellTab.GetHistoryCodeWithEnd()), true);
         }
 
         private void CloseTab(object sender, MouseButtonEventArgs e)
