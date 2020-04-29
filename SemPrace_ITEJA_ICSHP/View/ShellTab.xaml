@@ -9,11 +9,14 @@
              d:DesignWidth="800">
     <DockPanel>
         <ListView DockPanel.Dock="Left"
-                  Width="150">
-            <ListViewItem>a = 5</ListViewItem>
-            <ListViewItem>pen(down)</ListViewItem>
-            <ListViewItem>forward(a)</ListViewItem>
-            <ListViewItem>print("a")</ListViewItem>
+                  Width="150"
+                  x:Name="listViewHistory">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Clear"
+                              Click="ListView_ClearClick" />
+                </ContextMenu>
+            </ListBox.ContextMenu>
         </ListView>
 
         <DockPanel>
@@ -36,7 +39,10 @@
                                Grid.Row="0"
                                Grid.Column="0" />
                     <TextBox Grid.Row="0"
-                             Grid.Column="1" />
+                             Grid.Column="1"
+                             x:Name="txtBoxInput"
+                             VerticalContentAlignment="Center"
+                             KeyDown="TxtBoxInput_KeyDown" />
                     <TextBlock Text="Output> "
                                Margin="5"
                                Grid.Row="1"
@@ -44,7 +50,8 @@
                     <TextBox Grid.Row="1"
                              Grid.Column="1"
                              Margin="0,5,0,0"
-                             IsEnabled="False" />
+                             IsEnabled="False"
+                             x:Name="txtBoxOutput" />
                 </Grid >
 
             </Border>

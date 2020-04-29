@@ -35,7 +35,7 @@ namespace GUI.Model
             item.Header = "Assign";
 
             TreeViewItem varItem = new TreeViewItem();
-            varItem.Header = node.Identificator;
+            varItem.Header = node.Variable.Identifier;
             varItem.Items.Add(node.Expression.Visit(this));
 
             item.Items.Add(varItem);
@@ -121,6 +121,11 @@ namespace GUI.Model
         }
 
         public object Visit_PenStatement(PenStatement penStatement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Visit_StringText(StringText stringText)
         {
             throw new NotImplementedException();
         }

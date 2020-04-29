@@ -19,27 +19,35 @@
               FontFamily="Tahoma"
               FontSize="14">
             <MenuItem Header="File">
-                <MenuItem Header="Create new file"/>
-                <MenuItem Header="Open file..." />
-                <MenuItem Header="Save to file..." />
-                <MenuItem Header="Save" />
-                <MenuItem Header="Exit" />
+                <MenuItem Header="Create new file"
+                          Click="CreateFile_Click"/>
+                <MenuItem Header="Open file..." 
+                          Click="OpenFile_Click"/>
+                <MenuItem Header="Save history to file..."
+                          Click="SaveToFile_Click"/>
+                <MenuItem Header="Save history" 
+                          Click="Save_Click"/>
+                <MenuItem Header="Exit" 
+                          Click="Exit_Click"
+                          />
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Show AST tree"
                           Click="ShowAST_Click"/>
-                <MenuItem Header="Show generated code from history" />
+                <MenuItem Header="Show generated code from history"
+                          Click="ShowGeneratedCode_Click"/>
             </MenuItem>
         </Menu>
 
         <TabControl x:Name="actionTabs"
                     DockPanel.Dock="Top"
                     Background="White"
+                    Padding="2"
                     ItemsSource="{Binding TabItems}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="80"
+                        <TextBlock Width="auto"
                                    Text="{Binding Header}" />
                         <Image Source="close.jpg"
                                Visibility="{Binding Path=Closable, Converter={StaticResource Converter}}"

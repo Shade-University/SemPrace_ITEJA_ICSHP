@@ -8,7 +8,7 @@ namespace GUI.ViewModel
 {
     class MainViewModel : BaseViewModel
     {
-        public ObservableCollection<TabItemViewModel> TabItems { get; } = new ObservableCollection<TabItemViewModel>();
+        public ObservableCollection<TabItemModel> TabItems { get; } = new ObservableCollection<TabItemModel>();
 
     }
 }

@@ -254,7 +254,7 @@ namespace LanguageLogic
                 Advance();
             }
 
-            if (currentChar.Equals(','))
+            if (currentChar.Equals(',')) //Double numbers delimeter ,
             {
                 result += currentChar;
                 Advance();

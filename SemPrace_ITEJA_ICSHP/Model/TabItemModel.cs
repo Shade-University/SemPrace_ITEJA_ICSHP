@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace GUI.ViewModel
 {
-    class TabItemViewModel : BaseViewModel
+    class TabItemModel
     {
         public string Header { get; set; }
         public UserControl Content { get; set; }

@@ -1,8 +1,10 @@
 ﻿using GUI.Model;
-using LanguageLogic;
+using GUI.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,13 +18,15 @@ using System.Windows.Shapes;
 namespace GUI.View
 {
     /// <summary>
-    /// Interaction logic for ASTVisualizeTab.xaml
+    /// Interaction logic for GeneratedCodeTab.xaml
     /// </summary>
-    public partial class ASTVisualizeTab : UserControl
+    public partial class GeneratedCodeTab : UserControl
     {
-        public ASTVisualizeTab()
+        public GeneratedCodeTab(string code)
         {
-
+            InitializeComponent();
+            RichTextBoxFormatter.LoadRichTextBox(richTxtBox_GeneratedCode, code);
+            RichTextBoxFormatter.FormatCode(richTxtBox_GeneratedCode);
         }
     }
 }
