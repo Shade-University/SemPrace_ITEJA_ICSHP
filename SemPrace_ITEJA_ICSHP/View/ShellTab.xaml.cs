@@ -1,4 +1,5 @@
 ﻿using GUI.Model;
+using GUI.Services;
 using GUI.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,13 @@ namespace GUI.View
     public partial class ShellTab : UserControl
     {
         private ShellTabViewModel shellTabViewModel;
+        //private DrawingService drawingService;
         public ShellTab()
         {
             InitializeComponent();
 
             shellTabViewModel = new ShellTabViewModel();
+
             DataContext = shellTabViewModel;
             txtBoxInput.Focus();
         }
@@ -33,7 +36,7 @@ namespace GUI.View
         public string GetHistoryCodeWithEnd()
         {
             return GetHistoryCode() + "\n" + "END.";
-        }
+        } //Main will call this method because here we can get history code
         private string GetHistoryCode()
         {
             StringBuilder builder = new StringBuilder();
@@ -43,7 +46,7 @@ namespace GUI.View
                 builder.Append('\n');
             }
             return builder.ToString();
-        }
+        } //Dont know why i used listView. I could use better formatted RichTextBox
 
         private void MyCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -62,20 +65,28 @@ namespace GUI.View
                 output += "END.";
                 try
                 {
-                    txtBoxOutput.Text = LanguageExecutor.Compile(output); //If compiled succesfuly
+                    MyCanvas.Children.Clear();
+                    DrawingService drawingService = new DrawingService(MyCanvas);
+                    txtBoxOutput.Text = LanguageExecutor.Compile(output, drawingService); //If compiled succesfuly
                     listViewHistory.Items.Add(txtBoxInput.Text);
                     txtBoxInput.Clear();
                     txtBoxInput.Focus();
-                } catch (Exception ex) //TODO Uplně max super by byli vlastní exception
+                } catch (Exception ex) //Best if own exceptions, but i am lazy
                 {
                     txtBoxOutput.Text = "Compiler error: " + ex.Message;
                 }
-            } //TODO Funkce na kreslení a write draw atd atd
+            }
         }
 
         private void ListView_ClearClick(object sender, RoutedEventArgs e)
         {
             listViewHistory.Items.Clear();
+            MyCanvas.Children.Clear();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            new DrawingService(MyCanvas); //Just to invoke to draw Turtle in the middle when page is started
         }
     }
 }

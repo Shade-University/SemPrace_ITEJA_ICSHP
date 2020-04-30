@@ -2,7 +2,7 @@
 {
     public class FuncCallStatement : IStatement
     {
-        public IStatement Function { get; } //Functions is also statemenets
+        public IStatement Function { get; } //Functions is also statemenets. Maybe create own IFunction with interface IStatement
         public FuncCallStatement(IStatement func)
         {
             Function = func;

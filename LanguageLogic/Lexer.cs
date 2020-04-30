@@ -36,6 +36,8 @@ namespace LanguageLogic
                 { "backward", new Token() {TokenType = TokenType.BACKWARD, Value = "backward" } },
                 { "forward", new Token() {TokenType = TokenType.FORWARD, Value = "forward" } },
 
+                { "up", new Token() {TokenType = TokenType.UP, Value = "up" } },
+                { "down", new Token() {TokenType = TokenType.DOWN, Value = "down" } },
             };
         }
 

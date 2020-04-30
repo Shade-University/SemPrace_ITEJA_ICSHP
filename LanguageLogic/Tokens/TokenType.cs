@@ -43,6 +43,9 @@
         FORWARD,
         BACKWARD,
 
+        UP,
+        DOWN,
+
         EOF
     }
 }

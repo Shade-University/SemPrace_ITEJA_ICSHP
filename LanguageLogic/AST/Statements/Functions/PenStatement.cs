@@ -6,7 +6,7 @@
     }
     public class PenStatement : IStatement
     {
-        public PenStatus PenStatus { get; set; } = PenStatus.UP;
+        public PenStatus PenStatus { get; set; } = PenStatus.DOWN; //Default is down -> DOWN = Draw, UP (pero is up) not draw
 
         public PenStatement(PenStatus penStatus)
         {

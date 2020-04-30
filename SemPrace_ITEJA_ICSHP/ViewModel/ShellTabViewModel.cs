@@ -16,6 +16,6 @@ namespace GUI.ViewModel
                 canvasSizeText = value;
                 RaisePropertyChanged("CanvasSizeText");
             }
-        }
+        } //Binded Canvas size
     }
 }

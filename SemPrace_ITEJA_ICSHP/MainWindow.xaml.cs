@@ -34,7 +34,7 @@ namespace SemPrace_ITEJA_ICSHP
         {
             TabItemModel tab = new TabItemModel() { Header = header, Content = content, Closable = closable };
             mainViewModel.TabItems.Add(tab);
-            actionTabs.SelectedItem = tab;
+            actionTabs.SelectedItem = tab; //Add new tab
 
         }
         public MainWindow()
@@ -53,12 +53,12 @@ namespace SemPrace_ITEJA_ICSHP
 
         private void CloseTab(object sender, MouseButtonEventArgs e)
         {
-            mainViewModel.TabItems.RemoveAt(actionTabs.SelectedIndex); //CloseTab
+            mainViewModel.TabItems.RemoveAt(actionTabs.SelectedIndex); //Close Tab
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown(); //exit
+            Application.Current.Shutdown(); //exit application
         }
 
         private void ShowGeneratedCode_Click(object sender, RoutedEventArgs e)

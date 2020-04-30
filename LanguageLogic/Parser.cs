@@ -28,7 +28,7 @@ namespace LanguageLogic
             return node;
         }
 
-        private void EatToken(TokenType tokenType)
+        private void EatToken(TokenType tokenType) //Should add string parameter with error message.
         {
             if (currentToken.TokenType == tokenType)
             {
@@ -192,15 +192,22 @@ namespace LanguageLogic
         {
             EatToken(TokenType.PEN);
             EatToken(TokenType.LPARENT);
-            PenStatement penStatement = new PenStatement(PenStatus());
+            PenStatement penStatement = new PenStatement(PenStatusValue());
             EatToken(TokenType.RPARENT);
 
             return penStatement;
         }
 
-        private PenStatus PenStatus()
+        private PenStatus PenStatusValue()
         {
-            return AST.Statements.Functions.PenStatus.UP; //TODO Penstatus
+            if(currentToken.TokenType == TokenType.UP || currentToken.TokenType == TokenType.DOWN)
+            {
+                PenStatus penStatus = currentToken.TokenType == TokenType.UP ? PenStatus.UP : PenStatus.DOWN;
+                EatToken(currentToken.TokenType);
+                return penStatus;
+            }
+
+            throw new Exception("Invalid Pen status");
         }
 
         private IStatement BackwardStatement()

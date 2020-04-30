@@ -7,8 +7,25 @@ using System.Collections.Generic;
 
 namespace LanguageLogic
 {
+    public delegate void AngleDelegate(object angle);
+    public delegate void BackwardDelegate(object move);
+    public delegate void ForwardDelegate(object move);
+    public delegate void PenDelegate(PenStatus status);
+    public delegate void WriteDelegate(object text); //i would use just inheritance and rewrite interpret methods of these functions, but one of condition
+    //is to use delegates, so i used it here
+    //I didnt create GUI to console
+
     public class Interpreter : INodeVisitor
     {
+        public AngleDelegate AngleDelegate { get; set; }
+        public BackwardDelegate BackwardDelegate { get; set; }
+        public ForwardDelegate ForwardDelegate { get; set; }
+        public PenDelegate PenDelegate { get; set; } //Not implemented to console
+        public WriteDelegate WriteDelegate { get; set; } = delegate (object text)
+        {
+            Console.WriteLine(text);
+        }; //Default anonymous method to write to console
+
         private Parser parser;
         private Stack<ExecutionContext> context;
         public Interpreter(Parser parser)
@@ -41,7 +58,7 @@ namespace LanguageLogic
                     else if (value is double)
                     {
                         node.Variable.Type = VarType.DOUBLE;
-                    }
+                    } //Not working, but it quite doesnt matter. Object can handle any type
 
                     return null;
                 }
@@ -74,7 +91,7 @@ namespace LanguageLogic
 
         public object Visit_Block(Block node)
         {
-            context.Push(new ExecutionContext()); //Vytvoř nový kontext
+            context.Push(new ExecutionContext()); //New context
             foreach (VarDeclaration item in node.Declarations)
             {
                 item.Visit(this);
@@ -84,7 +101,7 @@ namespace LanguageLogic
             {
                 item.Visit(this);
             }
-            context.Pop(); //Odstraň kontext
+            context.Pop(); //Remove last context
 
             return null;
         }
@@ -137,7 +154,7 @@ namespace LanguageLogic
             switch (condition.Token.TokenType)
             {
                 case TokenType.EQUALS:
-                    return condition.Left.Visit(this).Equals(condition.Right.Visit(this));
+                    return condition.Left.Visit(this).Equals(condition.Right.Visit(this)); //Because of strings
                 case TokenType.LESS_OR_EQUAL:
                     return (double)condition.Left.Visit(this) <= (double)condition.Right.Visit(this);
                 case TokenType.MORE_OR_EQUAL:
@@ -145,11 +162,11 @@ namespace LanguageLogic
                 case TokenType.LESS:
                     return (double)condition.Left.Visit(this) < (double)condition.Right.Visit(this);
                 case TokenType.MORE:
-                    return (double)condition.Left.Visit(this) > (double)condition.Right.Visit(this);
+                    return (double)condition.Left.Visit(this) > (double)condition.Right.Visit(this); //This can be done only with numbers
                 case TokenType.NOT_EQUAL:
-                    return !condition.Left.Visit(this).Equals(condition.Right.Visit(this));
+                    return !condition.Left.Visit(this).Equals(condition.Right.Visit(this)); //because of strings
                 default:
-                    throw new Exception("Invalid condition token"); //Podmínky upravit i na text
+                    throw new Exception("Invalid condition token");
             }
         }
 
@@ -193,29 +210,37 @@ namespace LanguageLogic
 
         public object Visit_AngleStatement(AngleStatement angleStatement)
         {
-            throw new NotImplementedException();
+            AngleDelegate(angleStatement.Angle.Visit(this));
+
+            return null;
         }
 
         public object Visit_BackwardStatement(BackwardStatement backwardStatement)
         {
-            throw new NotImplementedException();
+            BackwardDelegate(backwardStatement.Expression.Visit(this));
+
+            return null;
         }
 
         public object Visit_ForwardStatement(ForwardStatement forwardStatement)
         {
-            throw new NotImplementedException();
+            ForwardDelegate(forwardStatement.Expression.Visit(this));
+
+            return null;
         }
 
         public object Visit_WriteStatement(WriteStatement writeStatement)
         {
-            Console.WriteLine(writeStatement.Expression.Visit(this));
+            WriteDelegate(writeStatement.Expression.Visit(this));
 
             return null;
         }
 
         public object Visit_PenStatement(PenStatement penStatement)
         {
-            throw new NotImplementedException();
+            PenDelegate(penStatement.PenStatus);
+
+            return null;
         }
 
         public object Visit_StringText(StringText stringText)

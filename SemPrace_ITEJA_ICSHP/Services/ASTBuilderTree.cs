@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace GUI.Model
 {
-    class ASTBuilderTree : INodeVisitor
+    class ASTBuilderTree : INodeVisitor //Visitor which builds TreView
     {
         private Parser parser;
         public ASTBuilderTree(Parser parser)

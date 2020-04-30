@@ -23,7 +23,7 @@ namespace GUI.View
     public partial class CodeTab : UserControl
     {
         string currentFile;
-        public CodeTab(string code)
+        public CodeTab(string code) //Tab for new file code or existing code
         {
             InitializeComponent();
             txtBox_Code.Text = code;
@@ -49,7 +49,7 @@ namespace GUI.View
         {
             try
             {
-                LanguageExecutor.Compile(txtBox_Code.Text);
+                LanguageExecutor.Compile(txtBox_Code.Text, new DrawingService(new Canvas())); //TODO Canvas upravit
                 MessageBox.Show("Compiled succesfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)

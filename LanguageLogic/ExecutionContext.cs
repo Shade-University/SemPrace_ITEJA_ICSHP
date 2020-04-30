@@ -4,7 +4,8 @@ namespace LanguageLogic
 {
     public class ExecutionContext
     {
-        private Dictionary<string, object> ReservedVariables;
+        private Dictionary<string, object> ReservedVariables; //Object or generic T
+        //Store variables in memory
 
         public ExecutionContext()
         {

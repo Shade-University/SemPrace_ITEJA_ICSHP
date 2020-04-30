@@ -26,7 +26,7 @@ namespace GUI.View
         {
             InitializeComponent();
             RichTextBoxFormatter.LoadRichTextBox(richTxtBox_GeneratedCode, code);
-            RichTextBoxFormatter.FormatCode(richTxtBox_GeneratedCode);
+            RichTextBoxFormatter.FormatCode(richTxtBox_GeneratedCode); //Load and format to richtextbox
         }
     }
 }

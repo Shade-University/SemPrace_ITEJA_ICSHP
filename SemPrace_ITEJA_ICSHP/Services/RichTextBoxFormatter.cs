@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace GUI.Services
 {
-    public static class RichTextBoxFormatter
+    public static class RichTextBoxFormatter //Helps to format code
     {
         public static void LoadRichTextBox(RichTextBox richTextBox, string code)
         {

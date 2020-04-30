@@ -25,7 +25,6 @@ namespace LanguageLogic
                     }
                     func write(first)
                     func write(second)
-                    func write(""\n"")
 
                     x = 0;
                     for 1 to 10 do

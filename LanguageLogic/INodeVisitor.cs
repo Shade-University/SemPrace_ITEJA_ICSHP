@@ -23,6 +23,6 @@ namespace LanguageLogic
         object Visit_IfStatement(IfStatement ifStatement);
         object Visit_Condition(Condition node);
         object Visit_ForStatement(ForStatement node);
-        object Visit_StringText(StringText stringText);
+        object Visit_StringText(StringText stringText); //Returning object for multiple purposes like gui Visitor. Null for returning nothing
     }
 }

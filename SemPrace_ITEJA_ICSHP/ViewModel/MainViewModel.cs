@@ -9,6 +9,6 @@ namespace GUI.ViewModel
     class MainViewModel : BaseViewModel
     {
         public ObservableCollection<TabItemModel> TabItems { get; } = new ObservableCollection<TabItemModel>();
-
+        //Open-close tab collection. Binded
     }
 }
