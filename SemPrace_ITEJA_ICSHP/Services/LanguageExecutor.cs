@@ -1,8 +1,5 @@
 ﻿using GUI.Services;
 using LanguageLogic;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GUI.Model
 {

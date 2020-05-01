@@ -2,14 +2,11 @@
 using LanguageLogic.AST;
 using LanguageLogic.AST.Statements;
 using LanguageLogic.AST.Statements.Functions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Controls;
 
 namespace GUI.Model
 {
-    class ASTBuilderTree : INodeVisitor //Visitor which builds TreView
+    internal class ASTBuilderTree : INodeVisitor //Visitor which builds TreView
     {
         private Parser parser;
         public ASTBuilderTree(Parser parser)
@@ -38,7 +35,7 @@ namespace GUI.Model
         }
 
         public object Visit_Assign(AssignStatement node)
-        { 
+        {
             TreeViewItem item = new TreeViewItem();
             item.IsExpanded = true;
 

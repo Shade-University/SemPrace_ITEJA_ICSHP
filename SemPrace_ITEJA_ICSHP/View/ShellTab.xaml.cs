@@ -2,17 +2,10 @@
 using GUI.Services;
 using GUI.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GUI.View
 {
@@ -40,7 +33,7 @@ namespace GUI.View
         private string GetHistoryCode()
         {
             StringBuilder builder = new StringBuilder();
-            foreach (var item in listViewHistory.Items)
+            foreach (object item in listViewHistory.Items)
             {
                 builder.Append(item);
                 builder.Append('\n');
@@ -55,7 +48,7 @@ namespace GUI.View
 
         private void TxtBoxInput_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 txtBoxOutput.Clear();
 
@@ -71,7 +64,8 @@ namespace GUI.View
                     listViewHistory.Items.Add(txtBoxInput.Text);
                     txtBoxInput.Clear();
                     txtBoxInput.Focus();
-                } catch (Exception ex) //Best if own exceptions, but i am lazy
+                }
+                catch (Exception ex) //Best if own exceptions, but i am lazy
                 {
                     txtBoxOutput.Text = "Compiler error: " + ex.Message;
                 }

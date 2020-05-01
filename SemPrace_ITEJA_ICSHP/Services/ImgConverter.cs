@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -13,7 +11,9 @@ namespace GUI.Services
         public static void CreateBitmapFromVisual(Visual target, string path)
         {
             if (target == null)
+            {
                 return;
+            }
 
             Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
 
