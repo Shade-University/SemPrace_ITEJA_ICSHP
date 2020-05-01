@@ -49,8 +49,10 @@ namespace GUI.View
         {
             try
             {
-                LanguageExecutor.Compile(txtBox_Code.Text, new DrawingService(new Canvas())); //TODO Canvas upravit
-                MessageBox.Show("Compiled succesfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                ImageViewCanvas img = new ImageViewCanvas();
+                img.Show();
+                LanguageExecutor.Compile(txtBox_Code.Text, new DrawingService(img.ImgCanvas));
+
             }
             catch (Exception ex)
             {

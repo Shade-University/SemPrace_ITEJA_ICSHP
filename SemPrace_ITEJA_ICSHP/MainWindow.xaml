@@ -27,6 +27,8 @@
                           Click="SaveToFile_Click"/>
                 <MenuItem Header="Save history" 
                           Click="Save_Click"/>
+                <MenuItem Header="Save history to image"
+                          Click="ImgSave_Click" />
                 <MenuItem Header="Exit" 
                           Click="Exit_Click"
                           />

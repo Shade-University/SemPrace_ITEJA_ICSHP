@@ -114,5 +114,16 @@ namespace SemPrace_ITEJA_ICSHP
             File.WriteAllText(currentFile, output);
 
         }
+
+        private void ImgSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                ImgConverter.CreateBitmapFromVisual(shellTab.MyCanvas, saveFileDialog.FileName);
+            }
+        }
     }
 }

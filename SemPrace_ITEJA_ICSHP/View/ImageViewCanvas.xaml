@@ -1,0 +1,21 @@
+﻿<Window x:Class="GUI.View.ImageViewCanvas"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI.View"
+        mc:Ignorable="d"
+        Title="ImageViewCanvas"
+        Height="450"
+        Width="800">
+    <Canvas x:Name="ImgCanvas"
+            Background="LightBlue"
+            DockPanel.Dock="Top">
+        <Canvas.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Save image"
+                          Click="Img_save" />
+            </ContextMenu>
+            </Canvas.ContextMenu>
+    </Canvas>
+</Window>

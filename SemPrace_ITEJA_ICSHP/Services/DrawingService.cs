@@ -35,6 +35,7 @@ namespace GUI.Services
             currentPosition.X = (int)canvas.ActualWidth / 2;
             currentPosition.Y = (int)canvas.ActualHeight / 2;
 
+
             DrawTurtle();
             Angle(90);
         }
@@ -44,8 +45,8 @@ namespace GUI.Services
             turtle = new Polygon();
             PointCollection points = new PointCollection() {
                 new System.Windows.Point(0,0),
-                new System.Windows.Point(8,0),
-               new System.Windows.Point(4,-8),
+                new System.Windows.Point(0,8),
+               new System.Windows.Point(-8,4),
             };
             turtle.Points = points;
             turtle.Fill = Brushes.Red;
@@ -123,9 +124,8 @@ namespace GUI.Services
         }
         public void Write(object text)
         {
-
+            System.Windows.MessageBox.Show(text.ToString());
         }
-
 
     }
 }
