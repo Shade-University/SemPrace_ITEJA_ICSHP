@@ -1,34 +1,18 @@
-var a, b, c, angle, i;
+var text, a, b, c;
 
-a = 10;
-b = 10;
-c = 20;
+a = 50;
+b = 50;
+c = 50;
 
-i = 0;
-angle = 60;
+text = "just text variable example";
 
-if a + b <= c then { func write("error") }
-if a + c <= b then { func write("error") }
-if b + c <= a then { func write("error") }
+func angle(180)
+func forward(c)
+func angle(60)
+func forward(b)
+func angle(360 - 60)
+func forward(a)
 
-
-
-for i to 200 do
-{
-	func pen(down)
-	func angle(90)
-	
-	func forward(c)
-	func angle(angle)
-	func forward(a)
-	func angle(angle)
-	func forward(b)
-	
-	i = i + 50;
-	func pen(up)
-	func angle(90)
-	func forward(i)
-}
-
+func write(text)
 
 END.
